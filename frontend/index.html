@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FraudShield AI Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 22px 5%;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h2 {
+            color: #38bdf8;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 8px;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 35px auto;
+        }
+
+        .welcome {
+            background: linear-gradient(120deg, #0f172a, #2563eb);
+            color: white;
+            padding: 35px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            margin-bottom: 12px;
+        }
+
+        .welcome p {
+            line-height: 1.7;
+        }
+
+        .section-title {
+            margin: 30px 0 18px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #2563eb;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        .stat-card h3 {
+            color: #64748b;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card p {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .safe {
+            border-color: #16a34a;
+        }
+
+        .suspicious {
+            border-color: #f59e0b;
+        }
+
+        .danger {
+            border-color: #dc2626;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        .panel h2 {
+            margin-bottom: 15px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            margin: 12px 0;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .result-box {
+            display: none;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .result-box p {
+            margin: 10px 0;
+        }
+
+        .chart {
+            display: flex;
+            align-items: end;
+            gap: 20px;
+            height: 180px;
+            padding: 20px;
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        .bar {
+            flex: 1;
+            background: #2563eb;
+            border-radius: 6px 6px 0 0;
+            min-height: 5px;
+            position: relative;
+        }
+
+        .bar span {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .history-item {
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .history-item p {
+            margin: 8px 0;
+        }
+
+        footer {
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 50px;
+        }
+
+        @media(max-width: 650px) {
+            .navbar {
+                display: block;
+            }
+
+            nav {
+                margin-top: 18px;
+            }
+
+            nav a {
+                display: inline-block;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="navbar">
+        <h2>🛡️ FraudShield AI</h2>
+
+        <nav>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#sms">SMS Scanner</a>
+            <a href="#website">Website Checker</a>
+            <a href="#history">History</a>
+            <a href="#about">About</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="welcome" id="dashboard">
+        <h1>Welcome to FraudShield AI</h1>
+        <p>AI-Assisted Scam Detection and Online Security Dashboard.</p>
+        <p>Protect yourself from suspicious SMS messages and fraudulent links.</p>
+    </section>
+
+    <h2 class="section-title">📊 Security Dashboard</h2>
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <h3>Total Scans</h3>
+            <p id="totalScans">0</p>
+        </div>
+
+        <div class="stat-card safe">
+            <h3>Safe Scans</h3>
+            <p id="safeScans">0</p>
+        </div>
+
+        <div class="stat-card suspicious">
+            <h3>Suspicious Scans</h3>
+            <p id="suspiciousScans">0</p>
+        </div>
+
+        <div class="stat-card danger">
+            <h3>High Risk Scans</h3>
+            <p id="highRiskScans">0</p>
+        </div>
+
+    </section>
+
+    <section class="panel">
+        <h2>📈 Risk Analysis</h2>
+        <div id="riskChart" class="chart">
+            Loading risk analysis...
+        </div>
+    </section>
+
+    <section class="panel" id="sms">
+        <h2>📩 SMS Fraud Scanner</h2>
+        <p>Paste a suspicious SMS message below.</p>
+
+        <textarea id="messageInput"
+            placeholder="Enter suspicious SMS message..."></textarea>
+
+        <button onclick="scanMessage()">🔍 Analyze Message</button>
+
+        <div id="result" class="result-box">
+            <h3>SMS Scan Result</h3>
+
+            <p>Risk Score: <strong id="riskScore"></strong></p>
+
+            <p>Status: <strong id="riskStatus"></strong></p>
+
+            <p id="explanation"></p>
+        </div>
+    </section>
+
+    <section class="panel" id="website">
+        <h2>🌐 Website Safety Checker</h2>
+        <p>Check a website URL for suspicious patterns.</p>
+
+        <input type="text" id="websiteInput"
+            placeholder="https://example.com">
+
+        <button onclick="scanWebsite()">🔍 Check Website</button>
+
+        <div id="websiteResult" class="result-box">
+            <h3>Website Scan Result</h3>
+
+            <p>Website: <strong id="websiteName"></strong></p>
+
+            <p>Risk Score: <strong id="websiteScore"></strong></p>
+
+            <p>Status: <strong id="websiteStatus"></strong></p>
+
+            <p>Warnings: <strong id="websiteWarnings"></strong></p>
+        </div>
+    </section>
+
+    <section class="panel" id="history">
+        <h2>📋 Recent Scan Activity</h2>
+
+        <button onclick="loadHistory()">🔄 Refresh History</button>
+
+        <div id="historyList">
+            Loading scan history...
+        </div>
+    </section>
+
+    <section class="panel" id="about">
+        <h2>ℹ️ About FraudShield AI</h2>
+
+        <p>
+            FraudShield AI is a scam detection project designed to identify
+            suspicious SMS messages and website URL patterns.
+        </p>
+
+        <br>
+
+        <p>
+            It provides risk scores and warnings to help users recognize
+            potential online fraud.
+        </p>
+    </section>
+
+</main>
+
+<footer>
+    © 2026 FraudShield AI | Stay Safe Online 🛡️
+    <br><br>
+    Risk scores are indicators, not proof that a message or website is fraudulent or safe.
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
